@@ -1,9 +1,19 @@
 // Listen for submit
-document.getElementById('loan-form').addEventListener('submit', calculateResults);
-
-
-function calculateResults(e){
+document.getElementById('loan-form').addEventListener('submit', function(e){
   e.preventDefault();
+  // Hide results
+  document.getElementById('results').style.display = 'none';
+
+  // Show loader
+  document.getElementById('loading').style.display = 'block';
+
+  // Use the set timeout method to call the calculate results function
+  // after 2 seconds (2000 miliseconds)
+  setTimeout(calculateResults, 2000)
+});
+
+
+function calculateResults(){
 
   // UI variables
   const loanAmount = document.getElementById('amount');
@@ -26,6 +36,10 @@ function calculateResults(e){
     monthlyPayment.value = monthly.toFixed(2);
     totalPayment.value = (monthly * calculatedPayments).toFixed(2);
     totalInterest.value = ((monthly * calculatedPayments)-principal).toFixed(2)
+
+    // Show results & hide spinner
+    document.getElementById('results').style.display = 'block';
+    document.getElementById('loading').style.display = 'none';
   } else {
     showError('Please check your numbers')
   }
@@ -49,6 +63,10 @@ function showError(errorMessage){
 
   // Insert error above heading
   card.insertBefore(errorDiv, heading);
+
+  // Hide loading gif & results
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('results').style.display = 'none';
 
   // Clear error after 3 seconds (3000 miliseconds)
   setTimeout(clearError, 3000);
